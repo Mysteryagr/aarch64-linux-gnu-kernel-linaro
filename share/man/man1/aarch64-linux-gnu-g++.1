@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "GCC 1"
-.TH GCC 1 "2017-01-09" "gcc-6.3.1" "GNU"
+.TH GCC 1 "2017-04-04" "gcc-6.3.1" "GNU"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -282,7 +282,7 @@ in the following sections.
 \&\fB\-Wno\-attributes \-Wbool\-compare \-Wno\-builtin\-macro\-redefined 
 \&\-Wc90\-c99\-compat \-Wc99\-c11\-compat 
 \&\-Wc++\-compat \-Wc++11\-compat \-Wc++14\-compat \-Wcast\-align  \-Wcast\-qual  
-\&\-Wchar\-subscripts \-Wclobbered  \-Wcomment \-Wconditionally\-supported  
+\&\-Wchar\-subscripts \-Wchkp \-Wclobbered  \-Wcomment \-Wconditionally\-supported  
 \&\-Wconversion \-Wcoverage\-mismatch \-Wno\-cpp \-Wdate\-time \-Wdelete\-incomplete 
 \&\-Wno\-deprecated \-Wno\-deprecated\-declarations \-Wno\-designated\-init 
 \&\-Wdisabled\-optimization 
@@ -620,7 +620,6 @@ in the following sections.
 \&\fB\-mapcs\-frame  \-mno\-apcs\-frame 
 \&\-mabi=\fR\fIname\fR 
 \&\fB\-mapcs\-stack\-check  \-mno\-apcs\-stack\-check 
-\&\-mapcs\-float  \-mno\-apcs\-float 
 \&\-mapcs\-reentrant  \-mno\-apcs\-reentrant 
 \&\-msched\-prolog  \-mno\-sched\-prolog 
 \&\-mlittle\-endian  \-mbig\-endian 
@@ -3454,6 +3453,10 @@ This warning is enabled by \fB\-Wall\fR.
 Warn whenever a comment-start sequence \fB/*\fR appears in a \fB/*\fR
 comment, or whenever a Backslash-Newline appears in a \fB//\fR comment.
 This warning is enabled by \fB\-Wall\fR.
+.IP "\fB\-Wchkp\fR" 4
+.IX Item "-Wchkp"
+Warn about an invalid memory access that is found by Pointer Bounds Checker
+(\fB\-fcheck\-pointer\-bounds\fR).
 .IP "\fB\-Wno\-coverage\-mismatch\fR" 4
 .IX Item "-Wno-coverage-mismatch"
 Warn if feedback profiles do not match when using the
@@ -12583,7 +12586,10 @@ more feature modifiers.  This option has the form
 \&\fB\-march=\fR\fIarch\fR{\fB+\fR[\fBno\fR]\fIfeature\fR}*.
 .Sp
 The permissible values for \fIarch\fR are \fBarmv8\-a\fR,
-\&\fBarmv8.1\-a\fR, \fBarmv8.2\-a\fR or \fInative\fR.
+\&\fBarmv8.1\-a\fR, \fBarmv8.2\-a\fR, \fBarmv8.3\-a\fR or \fInative\fR.
+.Sp
+The value \fBarmv8.3\-a\fR implies \fBarmv8.2\-a\fR and enables compiler
+support for the ARMv8.3\-A architecture extensions.
 .Sp
 The value \fBarmv8.2\-a\fR implies \fBarmv8.1\-a\fR and enables compiler
 support for the ARMv8.2\-A architecture extensions.
@@ -13581,12 +13587,14 @@ is unsuccessful the option has no effect.
 .IP "\fB\-mfpu=\fR\fIname\fR" 4
 .IX Item "-mfpu=name"
 This specifies what floating-point hardware (or hardware emulation) is
-available on the target.  Permissible names are: \fBvfp\fR, \fBvfpv3\fR,
+available on the target.  Permissible names are: \fBvfpv2\fR, \fBvfpv3\fR,
 \&\fBvfpv3\-fp16\fR, \fBvfpv3\-d16\fR, \fBvfpv3\-d16\-fp16\fR, \fBvfpv3xd\fR,
-\&\fBvfpv3xd\-fp16\fR, \fBneon\fR, \fBneon\-fp16\fR, \fBvfpv4\fR,
+\&\fBvfpv3xd\-fp16\fR, \fBneon\-vfpv3\fR, \fBneon\-fp16\fR, \fBvfpv4\fR,
 \&\fBvfpv4\-d16\fR, \fBfpv4\-sp\-d16\fR, \fBneon\-vfpv4\fR,
 \&\fBfpv5\-d16\fR, \fBfpv5\-sp\-d16\fR,
 \&\fBfp\-armv8\fR, \fBneon\-fp\-armv8\fR and \fBcrypto\-neon\-fp\-armv8\fR.
+Note that \fBneon\fR is an alias for \fBneon\-vfpv3\fR and \fBvfp\fR
+is an alias for \fBvfpv2\fR.
 .Sp
 If \fB\-msoft\-float\fR is specified this specifies the format of
 floating-point values.

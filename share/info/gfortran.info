@@ -19964,9 +19964,9 @@ Keyword Index
 * IS_IOSTAT_EOR:                         IS_IOSTAT_EOR.       (line   6)
 * ITIME:                                 ITIME.               (line   6)
 * KILL:                                  KILL.                (line   6)
+* KIND:                                  KIND.                (line   6)
 * kind:                                  KIND Type Parameters.
                                                               (line   6)
-* KIND:                                  KIND.                (line   6)
 * kind <1>:                              KIND.                (line   6)
 * kind, character:                       SELECTED_CHAR_KIND.  (line   6)
 * kind, integer:                         SELECTED_INT_KIND.   (line   6)

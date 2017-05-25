@@ -18,7 +18,6 @@
 #define HAVE_prefetch 1
 #define HAVE_trap 1
 #define HAVE_simple_return 1
-#define HAVE_eh_return 1
 #define HAVE_insv_immsi (UINTVAL (operands[1]) < GET_MODE_BITSIZE (SImode) \
    && UINTVAL (operands[1]) % 16 == 0)
 #define HAVE_insv_immdi (UINTVAL (operands[1]) < GET_MODE_BITSIZE (DImode) \
@@ -426,12 +425,10 @@
 #define HAVE_aarch64_dup_lane_to_64v8hi (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_128v2si (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_64v4si (TARGET_SIMD)
-#define HAVE_aarch64_dup_lane_to_64v2di (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_128v4hf (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_64v8hf (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_128v2sf (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_64v4sf (TARGET_SIMD)
-#define HAVE_aarch64_dup_lane_to_64v2df (TARGET_SIMD)
 #define HAVE_load_pairv8qi (TARGET_SIMD \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
@@ -2620,6 +2617,8 @@
 #define HAVE_notdicc 1
 #define HAVE_ffssi2 1
 #define HAVE_ffsdi2 1
+#define HAVE_popcountsi2 (TARGET_SIMD)
+#define HAVE_popcountdi2 (TARGET_SIMD)
 #define HAVE_ashlsi3 1
 #define HAVE_ashrsi3 1
 #define HAVE_lshrsi3 1
@@ -2644,36 +2643,37 @@
 #define HAVE_sqrtdf2 (TARGET_FLOAT)
 #define HAVE_copysigndf3 (TARGET_FLOAT && TARGET_SIMD)
 #define HAVE_copysignsf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_aarch64_reload_movcpsfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpsfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpdfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpdfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcptfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcptfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv8qisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv16qisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv4hisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv8hisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv2sisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv4sisi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv2disi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv2sfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv4sfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv2dfsi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == SImode || Pmode == SImode))
-#define HAVE_aarch64_reload_movcpv8qidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv16qidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv4hidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv8hidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv2sidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv4sidi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv2didi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv2sfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv4sfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
-#define HAVE_aarch64_reload_movcpv2dfdi ((TARGET_FLOAT && aarch64_nopcrelative_literal_loads) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpsfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpsfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpdfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpdfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcptfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcptfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv8qisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv16qisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv4hisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv8hisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv2sisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv4sisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv2disi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv2sfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv4sfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv2dfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpv8qidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv16qidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv4hidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv8hidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv2sidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv4sidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv2didi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv2sfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv4sfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpv2dfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movti (TARGET_FLOAT)
 #define HAVE_aarch64_reload_movtf (TARGET_FLOAT)
 #define HAVE_add_losym 1
-#define HAVE_tlsgd_small 1
+#define HAVE_tlsgd_small_si (ptr_mode == SImode)
+#define HAVE_tlsgd_small_di (ptr_mode == DImode)
 #define HAVE_get_thread_pointerdi 1
 #define HAVE_stack_protect_set 1
 #define HAVE_stack_protect_test 1
@@ -3508,7 +3508,6 @@ extern rtx        gen_nop                                 (void);
 extern rtx        gen_prefetch                            (rtx, rtx, rtx);
 extern rtx        gen_trap                                (void);
 extern rtx        gen_simple_return                       (void);
-extern rtx        gen_eh_return                           (rtx);
 extern rtx        gen_insv_immsi                          (rtx, rtx, rtx);
 extern rtx        gen_insv_immdi                          (rtx, rtx, rtx);
 extern rtx        gen_load_pairsi                         (rtx, rtx, rtx, rtx);
@@ -3886,12 +3885,10 @@ extern rtx        gen_aarch64_dup_lane_to_128v4hi         (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_64v8hi          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_128v2si         (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_64v4si          (rtx, rtx, rtx);
-extern rtx        gen_aarch64_dup_lane_to_64v2di          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_128v4hf         (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_64v8hf          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_128v2sf         (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_64v4sf          (rtx, rtx, rtx);
-extern rtx        gen_aarch64_dup_lane_to_64v2df          (rtx, rtx, rtx);
 extern rtx        gen_load_pairv8qi                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pairv4hi                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pairv4hf                       (rtx, rtx, rtx, rtx);
@@ -6040,6 +6037,8 @@ extern rtx        gen_negdicc                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_notdicc                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_ffssi2                              (rtx, rtx);
 extern rtx        gen_ffsdi2                              (rtx, rtx);
+extern rtx        gen_popcountsi2                         (rtx, rtx);
+extern rtx        gen_popcountdi2                         (rtx, rtx);
 extern rtx        gen_ashlsi3                             (rtx, rtx, rtx);
 extern rtx        gen_ashrsi3                             (rtx, rtx, rtx);
 extern rtx        gen_lshrsi3                             (rtx, rtx, rtx);
@@ -6093,7 +6092,8 @@ extern rtx        gen_aarch64_reload_movcpv2dfdi          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movti                (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movtf                (rtx, rtx, rtx);
 extern rtx        gen_add_losym                           (rtx, rtx, rtx);
-extern rtx        gen_tlsgd_small                         (rtx, rtx);
+extern rtx        gen_tlsgd_small_si                      (rtx, rtx);
+extern rtx        gen_tlsgd_small_di                      (rtx, rtx);
 extern rtx        gen_get_thread_pointerdi                (rtx);
 extern rtx        gen_stack_protect_set                   (rtx, rtx);
 extern rtx        gen_stack_protect_test                  (rtx, rtx, rtx);

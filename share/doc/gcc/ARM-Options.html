@@ -294,12 +294,14 @@ is unsuccessful the option has no effect.
 <dt><code>-mfpu=<var>name</var></code></dt>
 <dd><a name="index-mfpu-1"></a>
 <p>This specifies what floating-point hardware (or hardware emulation) is
-available on the target.  Permissible names are: &lsquo;<samp>vfp</samp>&rsquo;, &lsquo;<samp>vfpv3</samp>&rsquo;,
+available on the target.  Permissible names are: &lsquo;<samp>vfpv2</samp>&rsquo;, &lsquo;<samp>vfpv3</samp>&rsquo;,
 &lsquo;<samp>vfpv3-fp16</samp>&rsquo;, &lsquo;<samp>vfpv3-d16</samp>&rsquo;, &lsquo;<samp>vfpv3-d16-fp16</samp>&rsquo;, &lsquo;<samp>vfpv3xd</samp>&rsquo;,
-&lsquo;<samp>vfpv3xd-fp16</samp>&rsquo;, &lsquo;<samp>neon</samp>&rsquo;, &lsquo;<samp>neon-fp16</samp>&rsquo;, &lsquo;<samp>vfpv4</samp>&rsquo;,
+&lsquo;<samp>vfpv3xd-fp16</samp>&rsquo;, &lsquo;<samp>neon-vfpv3</samp>&rsquo;, &lsquo;<samp>neon-fp16</samp>&rsquo;, &lsquo;<samp>vfpv4</samp>&rsquo;,
 &lsquo;<samp>vfpv4-d16</samp>&rsquo;, &lsquo;<samp>fpv4-sp-d16</samp>&rsquo;, &lsquo;<samp>neon-vfpv4</samp>&rsquo;,
 &lsquo;<samp>fpv5-d16</samp>&rsquo;, &lsquo;<samp>fpv5-sp-d16</samp>&rsquo;,
 &lsquo;<samp>fp-armv8</samp>&rsquo;, &lsquo;<samp>neon-fp-armv8</samp>&rsquo; and &lsquo;<samp>crypto-neon-fp-armv8</samp>&rsquo;.
+Note that &lsquo;<samp>neon</samp>&rsquo; is an alias for &lsquo;<samp>neon-vfpv3</samp>&rsquo; and &lsquo;<samp>vfp</samp>&rsquo;
+is an alias for &lsquo;<samp>vfpv2</samp>&rsquo;.
 </p>
 <p>If <samp>-msoft-float</samp> is specified this specifies the format of
 floating-point values.

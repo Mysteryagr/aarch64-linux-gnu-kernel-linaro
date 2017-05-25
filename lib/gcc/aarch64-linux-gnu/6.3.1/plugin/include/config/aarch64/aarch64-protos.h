@@ -151,11 +151,17 @@ struct cpu_regmove_cost
 /* Cost for vector insn classes.  */
 struct cpu_vector_cost
 {
-  const int scalar_stmt_cost;		 /* Cost of any scalar operation,
+  const int scalar_int_stmt_cost;	 /* Cost of any int scalar operation,
+					    excluding load and store.  */
+  const int scalar_fp_stmt_cost;	 /* Cost of any fp scalar operation,
 					    excluding load and store.  */
   const int scalar_load_cost;		 /* Cost of scalar load.  */
   const int scalar_store_cost;		 /* Cost of scalar store.  */
-  const int vec_stmt_cost;		 /* Cost of any vector operation,
+  const int vec_int_stmt_cost;		 /* Cost of any int vector operation,
+					    excluding load, store, permute,
+					    vector-to-scalar and
+					    scalar-to-vector operation.  */
+  const int vec_fp_stmt_cost;		 /* Cost of any fp vector operation,
 					    excluding load, store, permute,
 					    vector-to-scalar and
 					    scalar-to-vector operation.  */
@@ -341,6 +347,7 @@ bool aarch64_simd_scalar_immediate_valid_for_move (rtx, machine_mode);
 bool aarch64_simd_shift_imm_p (rtx, machine_mode, bool);
 bool aarch64_simd_valid_immediate (rtx, machine_mode, bool,
 				   struct simd_immediate_info *);
+bool aarch64_split_dimode_const_store (rtx, rtx);
 bool aarch64_symbolic_address_p (rtx);
 bool aarch64_uimm12_shift (HOST_WIDE_INT);
 bool aarch64_use_return_insn_p (void);
@@ -358,7 +365,7 @@ int aarch64_hard_regno_mode_ok (unsigned, machine_mode);
 int aarch64_hard_regno_nregs (unsigned, machine_mode);
 int aarch64_uxt_size (int, HOST_WIDE_INT);
 int aarch64_vec_fpconst_pow_of_2 (rtx);
-rtx aarch64_final_eh_return_addr (void);
+rtx aarch64_eh_return_handler_rtx (void);
 rtx aarch64_mask_from_zextract_ops (rtx, rtx);
 const char *aarch64_output_move_struct (rtx *operands);
 rtx aarch64_return_addr (int, rtx);
@@ -453,7 +460,6 @@ int aarch64_ccmp_mode_to_code (enum machine_mode mode);
 bool extract_base_offset_in_addr (rtx mem, rtx *base, rtx *offset);
 bool aarch64_operands_ok_for_ldpstp (rtx *, bool, enum machine_mode);
 bool aarch64_operands_adjust_ok_for_ldpstp (rtx *, bool, enum machine_mode);
-extern bool aarch64_nopcrelative_literal_loads;
 
 extern void aarch64_asm_output_pool_epilogue (FILE *, const char *,
 					      tree, HOST_WIDE_INT);
@@ -466,5 +472,7 @@ enum aarch64_parse_opt_result aarch64_parse_extension (const char *,
 						       unsigned long *);
 std::string aarch64_get_extension_string_for_isa_flags (unsigned long,
 							unsigned long);
+
+rtl_opt_pass *make_pass_fma_steering (gcc::context *ctxt);
 
 #endif /* GCC_AARCH64_PROTOS_H */
